@@ -61,6 +61,21 @@ class Category:
         else:
             return True
 
+    # method to return string when object is printed
+    def __str__(self):
+        category_title = f"{self.name:*^30}\n"
+        item_list = ""
+        total = 0
+
+        for item in range(len(self.ledger)):
+            item_amount = self.ledger[item]["amount"]
+            item_desc = self.ledger[item]["description"][0:23]
+            item_list += item_desc + str(item_amount).rjust(len(category_title) - len(item_desc)) + "\n"
+            total += self.ledger[item]["amount"]
+
+        output = category_title + item_list + "Total: " + str(total)
+        return output
+
 
 def create_spend_chart(categories):
     pass
