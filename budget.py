@@ -37,12 +37,16 @@ class Category:
         return balance
 
     def transfer(self, amount, category):
+        # .name finds the name of the class instance
+        category = category.name
         # check if there are enough funds for transfer to take place
         enough_to_transfer = self.check_funds(amount)
 
         if enough_to_transfer:
-            self.withdraw(amount, desc=f"Transfer to {category}")
-            self.deposit(amount, desc=f"Transfer to {category}")
+            withdraw_desc = f"Transfer to {category}"
+            deposit_desc = f"Transfer from {category}"
+            self.withdraw(amount, desc=withdraw_desc)
+            self.deposit(amount, desc=deposit_desc)
             return True
         else:
             return False
