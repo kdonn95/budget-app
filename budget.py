@@ -38,15 +38,15 @@ class Category:
 
     def transfer(self, amount, category):
         # .name finds the name of the class instance
-        category = category.name
+        category_name = category.name
         # check if there are enough funds for transfer to take place
         enough_to_transfer = self.check_funds(amount)
 
         if enough_to_transfer:
-            withdraw_desc = f"Transfer to {category}"
-            deposit_desc = f"Transfer from {category}"
+            withdraw_desc = f"Transfer to {category_name}"
+            deposit_desc = f"Transfer from {self.name}"
             self.withdraw(amount, desc=withdraw_desc)
-            self.deposit(amount, desc=deposit_desc)
+            category.deposit(amount, desc=deposit_desc)
             return True
         else:
             return False
@@ -68,9 +68,9 @@ class Category:
         total = 0
 
         for item in range(len(self.ledger)):
-            item_amount = self.ledger[item]["amount"]
+            item_amount = str(format(self.ledger[item]["amount"], ".2f"))[0:7]
             item_desc = self.ledger[item]["description"][0:23]
-            item_list += item_desc + str(item_amount).rjust(len(category_title) - len(item_desc)) + "\n"
+            item_list += item_desc + item_amount.rjust(len(category_title) - len(item_desc)) + "\n"
             total += self.ledger[item]["amount"]
 
         output = category_title + item_list + "Total: " + str(total)
