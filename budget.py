@@ -83,6 +83,7 @@ def create_spend_chart(categories):
     for category in categories:
         total = 0
         for item in category.ledger:
+            # withdrawals will have negative value
             if item["amount"] < 0:
                 total += item["amount"]
         category_totals.append(total)
@@ -90,8 +91,43 @@ def create_spend_chart(categories):
     # converting totals to percentage
     percent_totals = []
     for total in category_totals:
-        percent = int((total / sum(category_totals)) * 100)
+        percent = int((total / sum(category_totals)) * 100) / 100
         percent_totals.append(percent)
 
-    output = "Percentage spend by category" + "\n"
-   # return output
+    output = "Percentage spent by category" + "\n"
+
+    i = 100
+    while i >= 0:
+        spaces = " "
+        for value in percent_totals:
+            if value * 100 >= i:
+                spaces += "o  "
+            else:
+                spaces += "  "
+        if i == 0:
+            output += str(i).rjust(3) + "|" + spaces
+        else:
+            output += str(i).rjust(3) + "|" + spaces + "\n"
+        i -= 10
+
+    category_names = []
+    for category in categories:
+        category_names.append(category.name)
+    dashes = "-" + "---"*len(category_names)
+    output += "\n" + "    " + dashes.rjust(3)
+
+    maximum = len(max(category_names, key=len))
+    names = "    "
+    for i in range(maximum):
+        for name in category_names:
+            try:
+                names += " " + name[i] + " "
+            except IndexError:
+                names += "   "
+        if i == maximum - 1:
+            names += "    "
+        else:
+            names += "\n" + "    "
+    output += "\n" + names
+
+    return output
