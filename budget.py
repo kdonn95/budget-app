@@ -68,9 +68,9 @@ class Category:
         total = 0
 
         for item in range(len(self.ledger)):
-            item_amount = str(format(self.ledger[item]["amount"], ".2f"))[0:7]
+            item_amount = str(format(self.ledger[item]["amount"], ">7.2f"))[0:7]
             item_desc = self.ledger[item]["description"][0:23]
-            item_list += item_desc + item_amount.rjust(len(category_title) - len(item_desc)) + "\n"
+            item_list += item_desc + item_amount.rjust(len(category_title) - len(item_desc) - 1) + "\n"
             total += self.ledger[item]["amount"]
 
         output = category_title + item_list + "Total: " + str(total)
@@ -78,4 +78,20 @@ class Category:
 
 
 def create_spend_chart(categories):
-    pass
+    # extracts the category's total withdrawals and add to list
+    category_totals = []
+    for category in categories:
+        total = 0
+        for item in category.ledger:
+            if item["amount"] < 0:
+                total += item["amount"]
+        category_totals.append(total)
+
+    # converting totals to percentage
+    percent_totals = []
+    for total in category_totals:
+        percent = int((total / sum(category_totals)) * 100)
+        percent_totals.append(percent)
+
+    output = "Percentage spend by category" + "\n"
+   # return output
