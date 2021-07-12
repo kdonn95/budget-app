@@ -96,6 +96,7 @@ def create_spend_chart(categories):
 
     output = "Percentage spent by category" + "\n"
 
+    # y axis intervals and graph area
     i = 100
     while i >= 0:
         spaces = " "
@@ -110,12 +111,14 @@ def create_spend_chart(categories):
             output += str(i).rjust(3) + "|" + spaces + "\n"
         i -= 10
 
+    # x axis dashes
     category_names = []
     for category in categories:
         category_names.append(category.name)
     dashes = "-" + "---"*len(category_names)
     output += "\n" + "    " + dashes.rjust(3)
 
+    # printing category name letter by letter, top to bottom
     maximum = len(max(category_names, key=len))
     names = "    "
     for i in range(maximum):
