@@ -103,7 +103,7 @@ def create_spend_chart(categories):
             if value * 100 >= i:
                 spaces += "o  "
             else:
-                spaces += "  "
+                spaces += "   "
         if i == 0:
             output += str(i).rjust(3) + "|" + spaces
         else:
@@ -127,7 +127,10 @@ def create_spend_chart(categories):
         if i == maximum - 1:
             names += "    "
         else:
-            names += "\n" + "    "
+            names += " " + "\n" + "    "
     output += "\n" + names
+    # remove extra whitespace
+    output = output.rstrip()
+    output += "  "
 
     return output
